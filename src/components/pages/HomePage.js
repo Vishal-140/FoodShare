@@ -17,6 +17,16 @@ const HomePage = () => {
       title: "Live Location",
       description: "Find nearby food donation points and recipients",
       icon: "📍"
+    },
+    {
+      title: "Impact Tracker",
+      description: "See real-time statistics of meals saved and people helped",
+      icon: "📊"
+    },
+    {
+      title: "Community Stories",
+      description: "Share and read inspiring stories from donors and recipients",
+      icon: "📝"
     }
   ];
 
@@ -148,7 +158,35 @@ const HomePage = () => {
       display: 'inline-flex',
       alignItems: 'center',
       gap: '8px',
-    }
+    },
+    gamificationSection: {
+      backgroundColor: '#f0fdf4',
+      padding: '64px 0',
+    },
+    rewardsGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+      gap: '32px',
+      marginTop: '32px',
+    },
+    rewardCard: {
+      backgroundColor: '#ffffff',
+      padding: '24px',
+      borderRadius: '12px',
+      textAlign: 'center',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+    },
+    badgeIcon: {
+      fontSize: '3rem',
+      marginBottom: '16px',
+    },
+    sectionTitle: {
+      fontSize: '2rem',
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginBottom: '16px',
+      color: '#111827',
+    },
   };
 
   return (
@@ -207,6 +245,30 @@ const HomePage = () => {
               <div style={styles.stepIconContainer}>❤️</div>
               <h3 style={styles.featureTitle}>Food Reaches Those in Need</h3>
               <p style={styles.featureDescription}>Coordinate pickup and delivery</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Gamification Section */}
+      <div style={styles.gamificationSection}>
+        <div style={styles.contentWrapper}>
+          <h2 style={styles.sectionTitle}>Rewards & Recognition</h2>
+          <div style={styles.rewardsGrid}>
+            <div style={styles.rewardCard}>
+              <div style={styles.badgeIcon}>🏆</div>
+              <h3>Food Hero Badges</h3>
+              <p>Earn badges for consistent donations</p>
+            </div>
+            <div style={styles.rewardCard}>
+              <div style={styles.badgeIcon}>⭐</div>
+              <h3>Impact Points</h3>
+              <p>Get points for every meal shared</p>
+            </div>
+            <div style={styles.rewardCard}>
+              <div style={styles.badgeIcon}>🎖️</div>
+              <h3>Monthly Champions</h3>
+              <p>Top donors featured on platform</p>
             </div>
           </div>
         </div>
