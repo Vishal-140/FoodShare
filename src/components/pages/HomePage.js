@@ -19,11 +19,6 @@ const HomePage = () => {
       icon: "📍"
     },
     {
-      title: "Impact Tracker",
-      description: "See real-time statistics of meals saved and people helped",
-      icon: "📊"
-    },
-    {
       title: "Community Stories",
       description: "Share and read inspiring stories from donors and recipients",
       icon: "📝"
