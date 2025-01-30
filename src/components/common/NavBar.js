@@ -105,7 +105,7 @@ const Navbar = () => {
               {link.title}
             </a>
           ))}
-          <button style={styles.button}>Get Started</button>
+          <button style={styles.button}>Donate Food</button>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -125,7 +125,7 @@ const Navbar = () => {
                 {link.title}
               </a>
             ))}
-            <button style={styles.button}>Get Started</button>
+            <button style={styles.button}>Donate Food</button>
           </div>
         </div>
       </div>

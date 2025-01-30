@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const features = [
@@ -9,11 +10,11 @@ const HomePage = () => {
     },
     {
       title: "Real-time Tracking",
-      description: "Track food donations and deliveries in real-time",
+      description: "Track food donations from various restaurants in real-time",
       icon: "⏰"
     },
     {
-      title: "Location Services",
+      title: "Live Location",
       description: "Find nearby food donation points and recipients",
       icon: "📍"
     }
@@ -26,7 +27,7 @@ const HomePage = () => {
     },
     heroSection: {
       backgroundColor: '#f0fdf4',
-      padding: '64px 0',
+      padding: '164px 0',
     },
     contentWrapper: {
       maxWidth: '1200px',
@@ -161,8 +162,12 @@ const HomePage = () => {
               Connecting surplus food from restaurants with those who need it most
             </p>
             <div style={styles.buttonContainer}>
-              <button style={styles.primaryButton}>Donate Food</button>
-              <button style={styles.secondaryButton}>Find Food</button>
+              <Link to="/donate-food" style={{ textDecoration: 'none' }}>
+                <button style={styles.primaryButton}>Donate Food</button>
+              </Link>
+              <Link to="/find-food" style={{ textDecoration: 'none' }}>
+                <button style={styles.secondaryButton}>Find Food</button>
+              </Link>
             </div>
           </div>
         </div>
@@ -215,9 +220,11 @@ const HomePage = () => {
             <p style={{...styles.subheading, color: '#ffffff', opacity: 0.9}}>
               Join our mission to reduce food waste and help those in need
             </p>
-            <button style={styles.ctaButton}>
-              Get Started →
-            </button>
+            <Link to="/donate-food" style={{ textDecoration: 'none' }}>
+              <button style={styles.ctaButton}>
+                Donate Food →
+              </button>
+            </Link>
           </div>
         </div>
       </div>
