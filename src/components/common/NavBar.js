@@ -6,7 +6,7 @@ const Navbar = () => {
   const styles = {
     navbar: {
       backgroundColor: '#ffffff',
-      padding: '1rem 0',
+      padding: '0.1rem 0',
       boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
       position: 'sticky',
       top: 0,
@@ -89,6 +89,8 @@ const Navbar = () => {
     { title: 'About', href: '/about' },
     { title: 'How It Works', href: '/how-it-works' },
     { title: 'Contact', href: '/contact' },
+    { title: 'Donate Food', href: '/donate-food' },
+    { title: 'Find Food', href: '/find-food' },
   ];
 
   return (
@@ -105,8 +107,9 @@ const Navbar = () => {
               {link.title}
             </a>
           ))}
-          <button style={styles.button}>Donate Food</button>
+          <button style={styles.button}>Get Started</button>
         </nav>
+        
 
         {/* Mobile Menu Button */}
         <button 

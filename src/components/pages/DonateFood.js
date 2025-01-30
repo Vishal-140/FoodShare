@@ -96,6 +96,8 @@ const DonateFood = () => {
                   <select value={item.unit} onChange={(e) => handleFoodItemChange(index, 'unit', e.target.value)} className="input">
                     <option value="kg">kg</option>
                     <option value="items">items</option>
+                    <option value="Nos">Nos</option>
+                    <option value="pieces">pieces</option>
                     <option value="servings">servings</option>
                   </select>
                   {index > 0 && (

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { database } from '../auth/firebase';
 import { ref, push, set, onValue, off, update } from 'firebase/database';
 import './FindFood.css';
+import ClaimFormPopup from './ClaimFormPopup'; // Import the ClaimFormPopup component
 
 const FindFood = () => {
   const [donations, setDonations] = useState([]);
@@ -41,6 +42,15 @@ const FindFood = () => {
           id: key,
           ...value
         }));
+
+        // Sort donations: unclaimed first
+        donationsList.sort((a, b) => {
+          const isAClaimed = claimedDonations[a.id];
+          const isBClaimed = claimedDonations[b.id];
+
+          return isAClaimed ? 1 : isBClaimed ? -1 : 0;
+        });
+
         setDonations(donationsList);
       }
     });
@@ -60,7 +70,7 @@ const FindFood = () => {
       off(donationsRef);
       off(claimsRef);
     };
-  }, []);
+  }, [claimedDonations]);  // Dependency on claimedDonations to ensure updates
 
   const handleClaimSubmit = async (e) => {
     e.preventDefault();
@@ -103,111 +113,6 @@ const FindFood = () => {
     }
   };
 
-  const ClaimFormPopup = () => (
-    <div className="overlay" onClick={() => setShowClaimForm(false)}>
-      <div className="popup" onClick={e => e.stopPropagation()}>
-        <h2>Claim Food Donation</h2>
-        <form onSubmit={handleClaimSubmit}>
-          <div className="form-group">
-            <label>Name *</label>
-            <input
-              type="text"
-              name="name"
-              value={claimFormData.name}
-              onChange={handleInputChange}
-              placeholder="Enter your full name"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Organization (if applicable)</label>
-            <input
-              type="text"
-              name="organization"
-              value={claimFormData.organization}
-              onChange={handleInputChange}
-              placeholder="Enter organization name (optional)"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Phone Number *</label>
-            <input
-              type="tel"
-              name="phone"
-              value={claimFormData.phone}
-              onChange={handleInputChange}
-              placeholder="Enter your phone number"
-              pattern="[0-9]{10}"
-              title="Please enter a valid 10-digit phone number"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={claimFormData.email}
-              onChange={handleInputChange}
-              placeholder="Enter your email address"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Purpose of Claiming *</label>
-            <textarea
-              name="purpose"
-              value={claimFormData.purpose}
-              onChange={handleInputChange}
-              placeholder="Please explain why you need this food donation"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Number of People to be Fed *</label>
-            <input
-              type="number"
-              name="numberOfPeople"
-              value={claimFormData.numberOfPeople}
-              onChange={handleInputChange}
-              placeholder="Enter number of people"
-              min="1"
-              required
-            />
-          </div>
-
-          <div className="button-group">
-            <button type="submit" className="submit-button">
-              Submit Claim
-            </button>
-            <button 
-              type="button" 
-              className="cancel-button"
-              onClick={() => {
-                setShowClaimForm(false);
-                setSelectedDonation(null);
-                setClaimFormData({
-                  name: '',
-                  organization: '',
-                  phone: '',
-                  email: '',
-                  purpose: '',
-                  numberOfPeople: ''
-                });
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-
   return (
     <div className="find-food-container">
       <h1>Available Food Donations</h1>
@@ -247,7 +152,7 @@ const FindFood = () => {
                   </>
                 ) : (
                   <button onClick={() => handleClaimClick(donation)}>
-                    Claim Donation
+                    Claim Food Donation
                   </button>
                 )}
               </div>
@@ -257,7 +162,14 @@ const FindFood = () => {
           <p>No donations available at the moment.</p>
         )}
       </div>
-      {showClaimForm && <ClaimFormPopup />}
+      {showClaimForm && <ClaimFormPopup 
+        claimFormData={claimFormData}
+        handleInputChange={handleInputChange}
+        handleClaimSubmit={handleClaimSubmit}
+        setShowClaimForm={setShowClaimForm}
+        setClaimFormData={setClaimFormData}
+        selectedDonation={selectedDonation}
+      />}
     </div>
   );
 };

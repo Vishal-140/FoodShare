@@ -17,12 +17,7 @@ const Footer = () => {
               Connecting surplus food from restaurants with those in need. 
               Together we can reduce food waste and fight hunger.
             </p>
-            <div className="social-links">
-              <a href="#" className="footer-link" aria-label="Facebook">📘</a>
-              <a href="#" className="footer-link" aria-label="Twitter">🐦</a>
-              <a href="#" className="footer-link" aria-label="Instagram">📸</a>
-              <a href="#" className="footer-link" aria-label="LinkedIn">💼</a>
-            </div>
+            
           </div>
 
           {/* Quick Links */}

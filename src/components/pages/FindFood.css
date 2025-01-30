@@ -1,140 +1,147 @@
+/* FindFood.css */
 .find-food-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #f2f0f0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 600;
+  text-align: center;
+  color: #1a1a1a;
+  margin-bottom: 2.5rem;
+  
+}
+
+.donation-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  padding: 0.5rem;
+}
+
+.donation-card {
+  background: rgb(226, 255, 235);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.donation-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.donation-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  padding: 1.25rem;
+  margin: 0;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.donation-details {
+  padding: 1.25rem;
+  flex-grow: 1;
+}
+
+.donation-details p {
+  margin: 0.75rem 0;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.donation-details strong {
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.donation-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0;
+}
+
+.donation-details li {
+  padding: 0.5rem 0;
+  color: #4a5568;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.donation-details li:last-child {
+  border-bottom: none;
+}
+
+button {
+  margin: 1rem 1.25rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #2c5282;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.5);
+}
+
+.claimed {
+  position: relative;
+  background-color: #f7fafc;
+}
+
+.claimed-text {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #fc8181;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.claim-info {
+  background-color: #f7fafc;
+  padding: 1rem 1.25rem;
+  margin-top: auto;
+  border-top: 1px solid #e9ecef;
+}
+
+.claim-info p {
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+  color: #4a5568;
+}
+
+@media (max-width: 640px) {
+  .find-food-container {
+    padding: 1rem;
   }
   
-  h2 {
-    text-align: center;
-    color: #333;
-  }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .donation-card {
-    background: #f9f9f9;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    position: relative;
-  }
-  
-  .donation-card h3 {
-    margin-bottom: 5px;
-    color: #4CAF50;
-  }
-  
-  .donation-card p {
-    margin: 5px 0;
-    color: #555;
-  }
-  
-  button {
-    padding: 8px 12px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  button:hover {
-    background: #45a049;
-  }
-  
-  .claimed {
-    background: #ddd;
-  }
-  
-  .claimed-text {
-    display: block;
-    color: #d32f2f;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 10px;
-  }
-  
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .popup {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow: auto;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-  }
-  
-  .form-group input,
-  .form-group textarea {
-    width: 100%;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-  }
-  
-  .form-group textarea {
-    min-height: 100px;
-    resize: vertical;
-  }
-  
-  .button-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
-  .submit-button {
-    background-color: #4CAF50;
-  }
-  
-  .cancel-button {
-    background-color: #dc3545;
+  h1 {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
   }
   
   .donation-list {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: 1fr;
   }
-  
-  .claim-info {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #f8f9fa;
-    border-radius: 4px;
-    font-size: 0.9rem;
-  }
-  
+}
