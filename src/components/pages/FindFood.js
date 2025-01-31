@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { database } from '../auth/firebase';
 import { ref, push, set, onValue, off, update } from 'firebase/database';
+import ClaimFormPopup from './ClaimFormPopup';
+import Mail from './Mail';
 import './FindFood.css';
-import ClaimFormPopup from './ClaimFormPopup'; // Import the ClaimFormPopup component
+
 
 const FindFood = () => {
   const [donations, setDonations] = useState([]);
@@ -18,9 +20,11 @@ const FindFood = () => {
     numberOfPeople: ''
   });
 
+  const [emailData, setEmailData] = useState(null); // State to store email data
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setClaimFormData(prevState => ({
+    setClaimFormData((prevState) => ({
       ...prevState,
       [name]: value
     }));
@@ -43,14 +47,7 @@ const FindFood = () => {
           ...value
         }));
 
-        // Sort donations: unclaimed first
-        donationsList.sort((a, b) => {
-          const isAClaimed = claimedDonations[a.id];
-          const isBClaimed = claimedDonations[b.id];
-
-          return isAClaimed ? 1 : isBClaimed ? -1 : 0;
-        });
-
+        donationsList.sort((a, b) => (claimedDonations[a.id] ? 1 : -1));
         setDonations(donationsList);
       }
     });
@@ -70,15 +67,15 @@ const FindFood = () => {
       off(donationsRef);
       off(claimsRef);
     };
-  }, [claimedDonations]);  // Dependency on claimedDonations to ensure updates
+  }, [claimedDonations]);
 
   const handleClaimSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const claimsRef = ref(database, 'claims');
       const newClaimRef = push(claimsRef);
-      
+
       const claimRecord = {
         donationId: selectedDonation.id,
         claimDetails: claimFormData,
@@ -87,13 +84,22 @@ const FindFood = () => {
 
       await set(newClaimRef, claimRecord);
 
-      setClaimedDonations(prev => ({
+      setClaimedDonations((prev) => ({
         ...prev,
         [selectedDonation.id]: claimFormData
       }));
 
       const donationRef = ref(database, `donations/${selectedDonation.id}`);
       await update(donationRef, { claimed: true });
+
+      alert('Thank you for your claim! The restaurant will be notified, and an email has been sent to the restaurant owner.');
+
+      // Prepare email data and trigger Mail.js
+      setEmailData({
+        restaurantEmail: selectedDonation.restaurantEmail,
+        restaurantName: selectedDonation.restaurantName,
+        ...claimFormData
+      });
 
       setClaimFormData({
         name: '',
@@ -105,8 +111,6 @@ const FindFood = () => {
       });
       setShowClaimForm(false);
       setSelectedDonation(null);
-
-      alert('Thank you for your claim! The restaurant will contact you shortly.');
     } catch (error) {
       console.error('Error submitting claim:', error);
       alert('Failed to submit claim. Please try again.');
@@ -128,7 +132,7 @@ const FindFood = () => {
                 <div className="donation-details">
                   <p><strong>Available Items:</strong></p>
                   <ul>
-                    {donation.foodItems && donation.foodItems.map((item, index) => (
+                    {donation.foodItems?.map((item, index) => (
                       <li key={index}>
                         {item.quantity} {item.unit} {item.name}
                       </li>
@@ -136,11 +140,9 @@ const FindFood = () => {
                   </ul>
                   <p><strong>Address:</strong> {donation.address}</p>
                   <p><strong>Pickup Time:</strong> {new Date(donation.pickupTime).toLocaleString()}</p>
-                  {donation.description && (
-                    <p><strong>Description:</strong> {donation.description}</p>
-                  )}
+                  {donation.description && <p><strong>Description:</strong> {donation.description}</p>}
                 </div>
-                
+
                 {isClaimed ? (
                   <>
                     <span className="claimed-text">Claimed</span>
@@ -151,9 +153,7 @@ const FindFood = () => {
                     </div>
                   </>
                 ) : (
-                  <button onClick={() => handleClaimClick(donation)}>
-                    Claim Food Donation
-                  </button>
+                  <button onClick={() => handleClaimClick(donation)}>Claim Food Donation</button>
                 )}
               </div>
             );
@@ -162,14 +162,17 @@ const FindFood = () => {
           <p>No donations available at the moment.</p>
         )}
       </div>
-      {showClaimForm && <ClaimFormPopup 
-        claimFormData={claimFormData}
-        handleInputChange={handleInputChange}
-        handleClaimSubmit={handleClaimSubmit}
-        setShowClaimForm={setShowClaimForm}
-        setClaimFormData={setClaimFormData}
-        selectedDonation={selectedDonation}
-      />}
+      {showClaimForm && (
+        <ClaimFormPopup
+          claimFormData={claimFormData}
+          handleInputChange={handleInputChange}
+          handleClaimSubmit={handleClaimSubmit}
+          setShowClaimForm={setShowClaimForm}
+          setClaimFormData={setClaimFormData}
+          selectedDonation={selectedDonation}
+        />
+      )}
+      {emailData && <Mail emailData={emailData} />}
     </div>
   );
 };
